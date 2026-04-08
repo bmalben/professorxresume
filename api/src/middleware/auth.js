@@ -1,0 +1,33 @@
+import jwt from "jsonwebtoken";
+import { config } from "../config.js";
+import { User } from "../models/User.js";
+
+export function authRequired(req, res, next) {
+  const h = req.headers.authorization;
+  const token = h?.startsWith("Bearer ") ? h.slice(7) : null;
+  if (!token) {
+    return res.status(401).json({ error: "Missing token" });
+  }
+  try {
+    const payload = jwt.verify(token, config.jwtSecret);
+    req.userId = payload.sub;
+    next();
+  } catch {
+    return res.status(401).json({ error: "Invalid token" });
+  }
+}
+
+export async function attachUserOptional(req, res, next) {
+  const h = req.headers.authorization;
+  const token = h?.startsWith("Bearer ") ? h.slice(7) : null;
+  if (!token) return next();
+  try {
+    const payload = jwt.verify(token, config.jwtSecret);
+    req.userId = payload.sub;
+    const u = await User.findById(payload.sub).select("name email title company");
+    req.user = u;
+  } catch {
+    /* ignore */
+  }
+  next();
+}

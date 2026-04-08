@@ -1,0 +1,5 @@
+/* Minimal globals; layout and components use MUI */
+
+html {
+  scroll-behavior: smooth;
+}

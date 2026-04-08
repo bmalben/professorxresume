@@ -1,0 +1,80 @@
+# Local development (bind mounts + hot reload). Copy .env.example → .env first.
+#
+#   docker compose up --build
+#
+# Production (immutable images, SPA + API via nginx on port 8080):
+#
+#   docker compose -f docker-compose.prod.yml up --build -d
+
+name: professorx2
+
+services:
+  mongo:
+    # Google’s Docker Hub mirror — avoids registry-1.docker.io when that path hits TLS timeouts.
+    # Override: MONGO_IMAGE=mongo:7 in .env
+    image: ${MONGO_IMAGE:-mirror.gcr.io/library/mongo:7}
+    restart: unless-stopped
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "mongodb://localhost:27017/test", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+  api:
+    build:
+      context: ./api
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "4000:4000"
+    environment:
+      MONGODB_URI: mongodb://mongo:27017/professorx
+      PORT: 4000
+      NODE_ENV: development
+      CHOKIDAR_USEPOLLING: "1"
+      JWT_SECRET: ${JWT_SECRET:-dev-change-me}
+      CORS_ORIGIN: http://localhost:5173
+      GEMINI_API_KEY: ${GEMINI_API_KEY}
+      GEMINI_MODEL: ${GEMINI_MODEL:-gemini-2.5-flash-lite}
+    volumes:
+      - ./api:/app
+      - /app/node_modules
+    depends_on:
+      mongo:
+        condition: service_healthy
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "require('http').get('http://127.0.0.1:4000/health',r=>{let d='';r.on('data',c=>d+=c);r.on('end',()=>process.exit(r.statusCode===200&&d.includes('ok')?0:1))}).on('error',()=>process.exit(1))",
+        ]
+      interval: 15s
+      timeout: 5s
+      retries: 3
+      start_period: 40s
+
+  web:
+    build:
+      context: ./web
+      dockerfile: Dockerfile.dev
+    restart: unless-stopped
+    ports:
+      - "5173:5173"
+    environment:
+      VITE_API_URL: http://localhost:4000
+    volumes:
+      - ./web:/app
+      - /app/node_modules
+    depends_on:
+      api:
+        condition: service_healthy
+    stdin_open: true
+    tty: true
+
+volumes:
+  mongo_data:
