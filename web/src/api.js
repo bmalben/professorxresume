@@ -46,4 +46,6 @@ export const api = {
     request(`/interviews/${id}/answer`, { method: "POST", body: JSON.stringify(body) }),
   completeInterview: (id) => request(`/interviews/${id}/complete`, { method: "POST" }),
   dashboardSummary: () => request("/dashboard/summary"),
+  getAdminUsers: () => request("/admin/users"),
+  deleteAdminUser: (id) => request(`/admin/users/${id}`, { method: "DELETE" }),
 };

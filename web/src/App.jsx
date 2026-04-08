@@ -14,12 +14,23 @@ import Login from "./pages/Login.jsx";
 import Register from "./pages/Register.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 import AiTools from "./pages/AiTools.jsx";
+import AdminRoute from "./components/AdminRoute.jsx";
+import Admin from "./pages/Admin.jsx";
 
 function Layout({ children }) {
   const { user, logout } = useAuth();
   return (
     <Box sx={{ display: "flex", flexDirection: "column", minHeight: "100vh" }}>
-      <AppBar position="sticky" color="primary" elevation={0}>
+      <AppBar 
+        position="sticky" 
+        elevation={0}
+        sx={{ 
+          bgcolor: "rgba(15, 23, 42, 0.85)", 
+          backdropFilter: "blur(10px)",
+          borderBottom: "1px solid rgba(255,255,255,0.1)",
+          color: "white"
+        }}
+      >
         <Container maxWidth="lg">
           <Toolbar disableGutters sx={{ gap: 2, py: 0.5 }}>
             <Typography
@@ -38,6 +49,11 @@ function Layout({ children }) {
             <Box sx={{ flexGrow: 1 }} />
             {user ? (
               <>
+                {user.role === "admin" && (
+                  <Button color="inherit" component={RouterLink} to="/admin" sx={{ fontWeight: 'bold' }}>
+                    Admin Panel
+                  </Button>
+                )}
                 <Button color="inherit" component={RouterLink} to="/dashboard">
                   Dashboard
                 </Button>
@@ -90,6 +106,14 @@ export default function App() {
             <PrivateRoute>
               <AiTools />
             </PrivateRoute>
+          }
+        />
+        <Route
+          path="/admin"
+          element={
+            <AdminRoute>
+              <Admin />
+            </AdminRoute>
           }
         />
         <Route path="*" element={<Navigate to="/" replace />} />

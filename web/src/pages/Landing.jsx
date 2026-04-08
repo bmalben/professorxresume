@@ -45,11 +45,11 @@ const features = [
 
 export default function Landing() {
   return (
-    <Box component="article">
+    <Box component="article" sx={{ bgcolor: "transparent" }}>
       <Box
         sx={{
-          bgcolor: "primary.main",
-          color: "primary.contrastText",
+          bgcolor: "transparent",
+          color: "#ffffff",
           py: { xs: 6, md: 10 },
         }}
       >
@@ -61,13 +61,13 @@ export default function Landing() {
             justifyContent="space-between"
           >
             <Box sx={{ flex: 1, maxWidth: { md: "48%" } }}>
-              <Typography variant="overline" sx={{ opacity: 0.9 }}>
+              <Typography variant="overline" sx={{ opacity: 0.9, color: "#ffffff" }}>
                 AI interview platform
               </Typography>
-              <Typography variant="h3" component="h1" sx={{ mt: 1, mb: 2, fontWeight: 600 }}>
+              <Typography variant="h3" component="h1" sx={{ mt: 1, mb: 2, fontWeight: 600, color: "#ffffff" }}>
                 Practice interviews that feel real
               </Typography>
-              <Typography variant="body1" sx={{ mb: 3, opacity: 0.92, lineHeight: 1.7 }}>
+              <Typography variant="body1" sx={{ mb: 3, opacity: 0.92, lineHeight: 1.7, color: "#ffffff" }}>
                 Professor X combines job intelligence, mock Q&amp;A powered by Google Gemini, and English
                 coaching — minimal UI, maximum clarity on what the AI is doing for you.
               </Typography>
@@ -77,11 +77,16 @@ export default function Landing() {
                   to="/register"
                   variant="contained"
                   color="inherit"
-                  sx={{ color: "primary.main", fontWeight: 600 }}
+                  sx={{ color: "primary.main", fontWeight: 600, bgcolor: "#ffffff", "&:hover": { bgcolor: "#f5f5f5" } }}
                 >
                   Get started
                 </Button>
-                <Button component={RouterLink} to="/login" variant="outlined" color="inherit">
+                <Button 
+                  component={RouterLink} 
+                  to="/login" 
+                  variant="outlined" 
+                  sx={{ color: "#ffffff", borderColor: "#ffffff", "&:hover": { borderColor: "#f5f5f5", bgcolor: "rgba(255,255,255,0.1)" } }}
+                >
                   Log in
                 </Button>
               </Stack>
@@ -108,15 +113,14 @@ export default function Landing() {
         </Container>
       </Box>
 
-      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 } }}>
-        <Typography variant="h4" component="h2" align="center" gutterBottom sx={{ fontWeight: 600 }}>
+      <Container maxWidth="lg" sx={{ py: { xs: 6, md: 8 }, bgcolor: "transparent" }}>
+        <Typography variant="h4" component="h2" align="center" gutterBottom sx={{ fontWeight: 600, color: "#ffffff" }}>
           What you can do
         </Typography>
         <Typography
           variant="body1"
-          color="text.secondary"
           align="center"
-          sx={{ maxWidth: 560, mx: "auto", mb: 5 }}
+          sx={{ maxWidth: 560, mx: "auto", mb: 5, color: "#ffffff", opacity: 0.92 }}
         >
           Three focused tools in one place. Your API key stays on the server; you see clear, labeled AI
           output.
@@ -124,7 +128,7 @@ export default function Landing() {
 
         <Stack spacing={4}>
           {features.map((f) => (
-            <Card key={f.title} variant="outlined" sx={{ overflow: "visible" }}>
+            <Card key={f.title} variant="outlined" sx={{ overflow: "visible", bgcolor: "rgba(0,0,0,0.6)", backdropFilter: "blur(10px)", borderColor: "rgba(255,255,255,0.2)" }}>
               <Stack direction={{ xs: "column", sm: "row" }}>
                 <CardMedia
                   component="img"
@@ -139,11 +143,11 @@ export default function Landing() {
                 <CardContent sx={{ flex: 1, py: 3 }}>
                   <Stack direction="row" alignItems="center" spacing={1} sx={{ mb: 1 }}>
                     {f.icon}
-                    <Typography variant="h6" component="h3">
+                    <Typography variant="h6" component="h3" sx={{ color: "#ffffff" }}>
                       {f.title}
                     </Typography>
                   </Stack>
-                  <Typography variant="body2" color="text.secondary" sx={{ lineHeight: 1.7 }}>
+                  <Typography variant="body2" sx={{ lineHeight: 1.7, color: "#ffffff", opacity: 0.9 }}>
                     {f.text}
                   </Typography>
                 </CardContent>
@@ -153,26 +157,38 @@ export default function Landing() {
         </Stack>
       </Container>
 
-      <Box sx={{ bgcolor: "grey.100", py: 6 }}>
+      <Box sx={{ bgcolor: "transparent", py: 6 }}>
         <Container maxWidth="sm">
-          <Typography variant="h5" align="center" gutterBottom sx={{ fontWeight: 600 }}>
+          <Typography variant="h5" align="center" gutterBottom sx={{ fontWeight: 600, color: "#ffffff" }}>
             Ready when you are
           </Typography>
-          <Typography variant="body2" color="text.secondary" align="center" sx={{ mb: 3 }}>
+          <Typography variant="body2" align="center" sx={{ mb: 3, color: "#ffffff", opacity: 0.92 }}>
             Create a free account to save sessions and see progress on your dashboard.
           </Typography>
           <Stack direction="row" spacing={2} justifyContent="center" flexWrap="wrap" useFlexGap>
-            <Button component={RouterLink} to="/register" variant="contained" size="large">
+            <Button 
+              component={RouterLink} 
+              to="/register" 
+              variant="contained" 
+              size="large"
+              sx={{ bgcolor: "#ffffff", color: "primary.main", "&:hover": { bgcolor: "#f5f5f5" } }}
+            >
               Register
             </Button>
-            <Button component={RouterLink} to="/login" variant="outlined" size="large">
+            <Button 
+              component={RouterLink} 
+              to="/login" 
+              variant="outlined" 
+              size="large"
+              sx={{ color: "#ffffff", borderColor: "#ffffff", "&:hover": { borderColor: "#f5f5f5", bgcolor: "rgba(255,255,255,0.1)" } }}
+            >
               Log in
             </Button>
           </Stack>
         </Container>
       </Box>
 
-      <Typography variant="caption" color="text.secondary" display="block" align="center" sx={{ py: 2 }}>
+      <Typography variant="caption" align="center" sx={{ py: 2, display: "block", color: "#ffffff", opacity: 0.7 }}>
         Showcase photos from Unsplash (various photographers).
       </Typography>
     </Box>

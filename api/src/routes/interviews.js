@@ -142,8 +142,11 @@ router.post("/:id/next-question", geminiLimiter, async (req, res) => {
     });
     return res.json({ question });
   } catch (e) {
+    console.error("Error in next-question:", e);
     const msg = e.message || "AI error";
-    if (/GEMINI_API_KEY/.test(msg)) return res.status(503).json({ error: "AI not configured" });
+    if (/GEMINI_API_KEY|API key not valid/i.test(msg)) {
+      return res.status(503).json({ error: "AI not configured: Please provide a valid Gemini API key in your .env file." });
+    }
     return res.status(500).json({ error: msg });
   }
 });
@@ -215,8 +218,11 @@ router.post("/:id/complete", geminiLimiter, async (req, res) => {
     const result = await Result.findOne({ interviewId: interview._id });
     return res.json({ interview, result });
   } catch (e) {
+    console.error("Error in complete-interview:", e);
     const msg = e.message || "Could not complete";
-    if (/GEMINI_API_KEY/.test(msg)) return res.status(503).json({ error: "AI not configured" });
+    if (/GEMINI_API_KEY|API key not valid/i.test(msg)) {
+      return res.status(503).json({ error: "AI not configured: Please provide a valid Gemini API key in your .env file." });
+    }
     return res.status(500).json({ error: msg });
   }
 });

@@ -10,6 +10,7 @@ import authRoutes from "./routes/auth.js";
 import aiRoutes from "./routes/ai.js";
 import interviewRoutes from "./routes/interviews.js";
 import dashboardRoutes from "./routes/dashboard.js";
+import adminRoutes from "./routes/admin.js";
 
 const log = pino({ level: config.nodeEnv === "production" ? "info" : "debug" });
 
@@ -45,6 +46,7 @@ app.use("/auth", authRoutes);
 app.use("/ai", aiRoutes);
 app.use("/interviews", interviewRoutes);
 app.use("/dashboard", dashboardRoutes);
+app.use("/admin", adminRoutes);
 
 app.use((err, _req, res, _next) => {
   log.error(err);
