@@ -50,7 +50,9 @@ app.use("/admin", adminRoutes);
 
 app.use((err, _req, res, _next) => {
   log.error(err);
-  res.status(500).json({ error: "Internal server error" });
+  const status = err.status || 500;
+  const message = status < 500 ? err.message : "Internal server error";
+  res.status(status).json({ error: message });
 });
 
 async function main() {

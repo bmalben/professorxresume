@@ -32,7 +32,7 @@ export default function Register() {
     }
     
     try {
-      await register(name, email, password);
+      await register({ name, email, password });
       nav("/dashboard", { replace: true });
     } catch (ex) {
       setErr(ex.message);

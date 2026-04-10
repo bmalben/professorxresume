@@ -54,10 +54,10 @@ router.post("/login", async (req, res) => {
 });
 
 router.get("/me", authRequired, async (req, res) => {
-  const user = await User.findById(req.userId).select("name email title company");
+  const user = await User.findById(req.userId).select("name email title company role");
   if (!user) return res.status(404).json({ error: "User not found" });
   return res.json({
-    user: { id: user._id, name: user.name, email: user.email, title: user.title, company: user.company },
+    user: { id: user._id, name: user.name, email: user.email, title: user.title, company: user.company, role: user.role },
   });
 });
 
@@ -70,7 +70,7 @@ router.patch("/profile", authRequired, async (req, res) => {
   if (company != null) user.company = String(company).trim();
   await user.save();
   return res.json({
-    user: { id: user._id, name: user.name, email: user.email, title: user.title, company: user.company },
+    user: { id: user._id, name: user.name, email: user.email, title: user.title, company: user.company, role: user.role },
   });
 });
 
