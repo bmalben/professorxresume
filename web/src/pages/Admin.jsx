@@ -42,7 +42,7 @@ export default function Admin() {
 
   return (
     <div className="container mt-5">
-      <h2 className="mb-4">Admin Dashboard</h2>
+      <h2 className="mb-4 text-white">Admin Dashboard</h2>
       {error && <div className="alert alert-danger">{error}</div>}
       
       <div className="card shadow-sm border-0">
