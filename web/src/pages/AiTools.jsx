@@ -126,7 +126,7 @@ function TabJobIntel() {
             multiline
             minRows={4}
             sx={{
-              "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.7)" },
+              "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 1)" },
               "& .MuiInputLabel-root.Mui-focused": { color: "#ffffff" },
               "& .MuiOutlinedInput-root": {
                 color: "#ffffff",
@@ -292,7 +292,7 @@ function TabMockInterview() {
             required
             fullWidth
             sx={{
-              "& .MuiInputLabel-root": { color: "rgba(255,255,255,0.7)" },
+              "& .MuiInputLabel-root": { color: "rgba(255, 255, 255, 1)" },
               "& .MuiInputLabel-root.Mui-focused": { color: "#ffffff" },
               "& .MuiOutlinedInput-root": {
                 color: "#ffffff",
